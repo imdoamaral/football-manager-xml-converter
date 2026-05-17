@@ -1,0 +1,16 @@
+# FM database XML files — large files, generated from source
+# Source file: see README for instructions on obtaining The 2001 02 DB MASTER.xml
+*.xml
+
+# Generated outputs (reproduced by running the scripts)
+output/
+
+# Claude Code personal settings
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
