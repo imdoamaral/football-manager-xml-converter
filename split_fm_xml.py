@@ -5,16 +5,14 @@ Two-pass streaming split of the FM 2021 XML patch file.
 Pass 1: scan the entire file to build uid->nation lookup dicts.
 Pass 2: re-scan and write only records belonging to the TARGET nation.
 
-Lookup chain (by priority):
-  1. Pcti (current contract) -> Ttea -> competition (Plhs) -> COMP_NATION
-  2. Pnti (nationality)      -> Nnat -> NNAT_NATION
-
+See CLAUDE.md for the full inclusion criteria (9 rules) and architecture details.
 Output: output/fm21/<country>.xml
 """
 
 import re
 import os
 import sys
+import random
 
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 filepath   = os.path.join(BASE_DIR, "The 2001 02 DB MASTER.xml")
@@ -29,11 +27,14 @@ TARGET = sys.argv[1].lower()
 TYPE_RE = re.compile(r'<integer id="database_table_type" value="(\d+)"')
 PROP_RE = re.compile(r'<unsigned id="property" value="(\d+)"')
 UID_RE  = re.compile(r'<large id="db_unique_id" value="(\d+)"')
-TTEA_RE = re.compile(r'<integer id="Ttea" value="(\d+)"')
-COMP_RE = re.compile(r'<integer id="competition" value="(\d+)"')
-NNAT_RE = re.compile(r'<integer id="Nnat" value="(\d+)"')
-PERS_RE = re.compile(r'<integer id="Pers" value="(\d+)"')
-YEAR_RE = re.compile(r'<(?:unsigned|integer) id="year" value="(\d+)"')
+TTEA_RE        = re.compile(r'<integer id="Ttea" value="(\d+)"')
+COMP_RE        = re.compile(r'<integer id="competition" value="(\d+)"')
+NNAT_RE        = re.compile(r'<integer id="Nnat" value="(\d+)"')
+PERS_RE        = re.compile(r'<integer id="Pers" value="(\d+)"')
+YEAR_RE        = re.compile(r'<(?:unsigned|integer) id="year" value="(\d+)"')
+# Parse new_value / odvl Ttea separately to handle <null id="new_value"/> cases
+NEWVAL_TTEA_RE = re.compile(r'<record id="new_value">[\s\S]*?<integer id="Ttea" value="(\d+)"', re.DOTALL)
+ODVL_TTEA_RE   = re.compile(r'<record id="odvl">[\s\S]*?<integer id="Ttea" value="(\d+)"', re.DOTALL)
 
 # FourCC property IDs (unsigned integer form)
 PCTI_PROP      = "1348695145"   # current club contract  → Ttea
@@ -41,6 +42,10 @@ PNTI_PROP      = "1349416041"   # nationality            → Nnat
 PLHS_PROP      = "1349281907"   # league history         → Ttea + competition + year
 CDVI_PROP      = "1130657385"   # club current division  → competition
 FREE_AGENT_TTEA = "1171"        # virtual free-agents team (skip for club lookup)
+MULT            = 2**32 + 1      # db_unique_id = entity_id * MULT
+CLHS_PROP       = "1131178099"   # club league history season  → competition + year
+CLDI_PROP       = "1131177065"   # club last division          → competition
+SEASON_END_YEAR = 2002           # 2001/02 season ends in calendar year 2002
 
 # ── Nation mapping tables ─────────────────────────────────────────
 # IDs confirmed in the FM 2021 editor.
@@ -482,11 +487,13 @@ def stream_records(fpath):
 # ═══════════════════════════════════════════════════════════════════
 print("Pass 1: scanning for nation lookups...", flush=True)
 
-uid_ttea        = {}   # uid str  → Ttea str           (from Pcti)
-uid_nnat        = {}   # uid str  → Nnat int            (from Pnti)
-ttea_nation     = {}   # Ttea str → nation str          (from Plhs × COMP_NATION)
-ttea_best_year  = {}   # Ttea str → best year int       (for recency tie-break)
-club_uid_nation = {}   # club db_unique_id → nation str (from Cdvi)
+uid_ttea          = {}   # uid str  → Ttea str           (from Pcti new_value)
+uid_prev_ttea     = {}   # uid str  → prev Ttea str      (from Pcti odvl — departure tracking)
+uid_nnat          = {}   # uid str  → Nnat int            (from Pnti)
+ttea_nation       = {}   # Ttea str → nation str          (from Plhs × COMP_NATION)
+ttea_best_year    = {}   # Ttea str → best year int       (for recency tie-break)
+club_uid_nation   = {}   # club db_unique_id → nation str  (from Cdvi)
+club_clhs_entries = {}   # club uid → {year: comp_id}        (from Clhs)
 
 n = 0
 for rtype, prop, uid, blob in stream_records(filepath):
@@ -498,9 +505,15 @@ for rtype, prop, uid, blob in stream_records(filepath):
 
     if rtype == "1":
         if prop == PCTI_PROP:
-            ts = TTEA_RE.findall(blob)
-            if ts and uid and ts[0] != FREE_AGENT_TTEA:
-                uid_ttea[uid] = ts[0]
+            if uid:
+                # Parse new_value and odvl separately so <null id="new_value"/> cases
+                # (contract deletion) don't accidentally inherit the odvl Ttea as new club.
+                nv_m = NEWVAL_TTEA_RE.search(blob)
+                if nv_m and nv_m.group(1) != FREE_AGENT_TTEA:
+                    uid_ttea[uid] = nv_m.group(1)
+                od_m = ODVL_TTEA_RE.search(blob)
+                if od_m and od_m.group(1) != FREE_AGENT_TTEA:
+                    uid_prev_ttea[uid] = od_m.group(1)
 
         elif prop == PNTI_PROP:
             ns = NNAT_RE.findall(blob)
@@ -529,6 +542,15 @@ for rtype, prop, uid, blob in stream_records(filepath):
                 club_uid_nation[uid] = COMP_NATION[c]
                 break
 
+    elif rtype == "3" and prop == CLHS_PROP and uid:
+        cs = COMP_RE.findall(blob)
+        ys = YEAR_RE.findall(blob)
+        if ys and cs:
+            comp = int(cs[0])
+            if comp in COMP_NATION:
+                year = int(ys[0])
+                club_clhs_entries.setdefault(uid, {})[year] = comp
+
 print(f"\nPass 1 done. {n:,} records scanned.")
 print(f"  uid_ttea:        {len(uid_ttea):,}")
 print(f"  uid_nnat:        {len(uid_nnat):,}")
@@ -552,7 +574,56 @@ for uid, nnat in uid_nnat.items():
             uid_nation[uid] = nat
 
 target_person_uids = frozenset(u for u, nat in uid_nation.items() if nat in TARGET_NATIONS)
-target_club_uids   = frozenset(u for u, nat in club_uid_nation.items() if nat in TARGET_NATIONS)
+
+# Fix 3 — capture departure records: persons whose prev club (prev_ttea) was a TARGET
+# club in the FM 2021 base but whose 2001/02 club is non-TARGET
+# (e.g. Fonseca: Roma→Portugal). Without these, FM keeps showing them at their
+# old FM 2021 TARGET club.
+departure_uids = frozenset(
+    u for u, prev_t in uid_prev_ttea.items()
+    if prev_t in ttea_nation
+    and ttea_nation[prev_t] in TARGET_NATIONS
+    and u not in target_person_uids
+)
+target_person_uids = target_person_uids | departure_uids
+
+# Fix 1 — extend target_club_uids with Ttea-derived UIDs so we capture
+# all type=3 club records (reputation, finances, history…) for clubs that
+# have no Cdvi record in the patch (they were already in the correct division
+# in FM 2021 base, so the patch records no change).
+cdvi_club_uids = frozenset(u for u, nat in club_uid_nation.items() if nat in TARGET_NATIONS)
+for ttea_str, nat in ttea_nation.items():
+    ttea_uid = str(int(ttea_str) * MULT)
+    if ttea_uid not in club_uid_nation:
+        club_uid_nation[ttea_uid] = nat
+target_club_uids = frozenset(u for u, nat in club_uid_nation.items() if nat in TARGET_NATIONS)
+
+# Fix 2 — build synthetic Cdvi/Cldi records for clubs that have no Cdvi
+# in the patch but DO have Clhs entries, so FM 2024 places them in the
+# correct 2001/02 division instead of the current (2023-24) one.
+ttea_only_uids = target_club_uids - cdvi_club_uids
+synthetic_cdvi = {}   # uid → (curr_comp, cldi_comp)
+for uid in ttea_only_uids:
+    entries = club_clhs_entries.get(uid, {})
+    valid = {y: c for y, c in entries.items() if y <= SEASON_END_YEAR}
+    if not valid:
+        continue
+    best_year = max(valid)
+    curr_comp = valid[best_year]
+    prev_valid = {y: c for y, c in valid.items() if y < best_year}
+    cldi_comp = prev_valid[max(prev_valid)] if prev_valid else curr_comp
+    synthetic_cdvi[uid] = (curr_comp, cldi_comp)
+
+# Competition entity UIDs — only captured for rtype=25 (avoids collision with nation IDs
+# that share the same integer, e.g. comp 34=Serie C1/A and nation 34=Morocco).
+target_comp_uids = frozenset(
+    str(c * MULT) for c, nat in COMP_NATION.items() if nat in TARGET_NATIONS
+)
+
+# Nation entity UIDs — only captured for rtype=9 (NTRv/NWGv financial records).
+target_nation_uids = frozenset(
+    str(n * MULT) for n, nat in NNAT_NATION.items() if nat in TARGET_NATIONS
+)
 
 # Summary by nation
 from collections import Counter
@@ -562,8 +633,12 @@ for nat, cnt in nat_counts.most_common(15):
     marker = " <-- TARGET" if nat in TARGET_NATIONS else ""
     print(f"  {nat:15}  {cnt:>7,}{marker}")
 
-print(f"\nPersons : {len(target_person_uids):,}")
-print(f"Clubs   : {len(target_club_uids):,}", flush=True)
+print(f"\nPersons        : {len(target_person_uids):,}  (incl. {len(departure_uids):,} departure records)")
+print(f"Clubs (cdvi)   : {len(cdvi_club_uids):,}")
+print(f"Clubs (+ttea)  : {len(target_club_uids):,}  (+{len(target_club_uids) - len(cdvi_club_uids):,} via Ttea)")
+print(f"Synthetic cdvi : {len(synthetic_cdvi):,}  clubs need synthetic Cdvi/Cldi")
+print(f"Comp UIDs      : {len(target_comp_uids):,}  (competition entity records, rtype=25)")
+print(f"Nation UIDs    : {len(target_nation_uids):,}  (nation financial records, rtype=9 only)", flush=True)
 
 # ═══════════════════════════════════════════════════════════════════
 # PASS 2 — write output file
@@ -572,10 +647,57 @@ os.makedirs(output_dir, exist_ok=True)
 out_path = os.path.join(output_dir, f"{TARGET}.xml")
 
 
+def _synth_record(uid, prop_id, new_value_lines):
+    parts = [
+        "\t\t<record>",
+        '\t\t\t<integer id="database_table_type" value="3"/>',
+        f'\t\t\t<large id="db_unique_id" value="{uid}"/>',
+        f'\t\t\t<unsigned id="property" value="{prop_id}"/>',
+    ]
+    parts.extend(new_value_lines)
+    parts += [
+        '\t\t\t<integer id="version" value="2959"/>',
+        f'\t\t\t<integer id="db_random_id" value="{random.randint(1, 999_999_999)}"/>',
+        '\t\t\t<boolean id="is_client_field" value="true"/>',
+        "\t\t</record>",
+    ]
+    return "\n".join(parts)
+
+
+def _synth_cdvi(uid, comp_id):
+    return _synth_record(uid, CDVI_PROP, [
+        '\t\t\t<record id="new_value">',
+        f'\t\t\t\t<integer id="competition" value="{comp_id}"/>',
+        '\t\t\t</record>',
+    ])
+
+
+def _synth_cldi(uid, comp_id):
+    return _synth_record(uid, CLDI_PROP, [
+        '\t\t\t<record id="new_value">',
+        f'\t\t\t\t<integer id="competition" value="{comp_id}"/>',
+        '\t\t\t</record>',
+    ])
+
+
 def is_target(rtype, prop, uid, blob):
     if uid in target_person_uids:
         return True
     if uid in target_club_uids:
+        return True
+    if rtype == "25":
+        # Direct competition entity records (uid IS the competition's own UID)
+        if uid in target_comp_uids:
+            return True
+        # Competition HISTORY records: have their own UID but reference a TARGET
+        # competition via an internal <integer id="competition" value="..."/> field.
+        # This captures clearing/updating records (e.g. nulling out the record-goals
+        # scorer) whose own UID is not the competition's entity UID.
+        for c_s in COMP_RE.findall(blob):
+            if int(c_s) in COMP_NATION and COMP_NATION[int(c_s)] in TARGET_NATIONS:
+                return True
+    # Nation financial records (rtype=9 only — NTRv/NWGv)
+    if rtype == "9" and uid in target_nation_uids:
         return True
     for p in PERS_RE.findall(blob):
         if p in target_person_uids:
@@ -612,6 +734,12 @@ with open(out_path, "w", encoding="utf-8") as out:
             pct = done * 100 / TOTAL_EST
             print(f"  {done:>9,} ({pct:.0f}%) | written={written:,}  skipped={skipped:,}",
                   flush=True)
+
+    # ── Synthetic division records (Fix 2) ───────────────────────
+    for uid, (curr_comp, cldi_comp) in sorted(synthetic_cdvi.items()):
+        out.write(_synth_cdvi(uid, curr_comp) + "\n")
+        out.write(_synth_cldi(uid, cldi_comp) + "\n")
+        written += 2
 
     # ── Footer ───────────────────────────────────────────────────
     out.write("\t</list>\n</record>\n")
