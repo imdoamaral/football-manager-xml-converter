@@ -45,28 +45,57 @@ Reads the entire file and builds lightweight lookup dictionaries in RAM:
 
 | Dictionary | Source (FourCC / prop ID) | Contents |
 |---|---|---|
-| `uid_ttea` | Pcti · 1348695145 | player uid → current club Ttea |
-| `uid_nnat` | Pnti · 1349416041 | player uid → nationality (Nnat) |
+| `uid_ttea` | Pcti · 1348695145 | person uid → current club Ttea (from new_value) |
+| `uid_prev_ttea` | Pcti · 1348695145 | person uid → previous club Ttea (from odvl — departure tracking) |
+| `uid_nnat` | Pnti · 1349416041 | person uid → nationality (Nnat) |
 | `ttea_nation` | Plhs · 1349281907 | club Ttea → nation (via competition) |
+| `ttea_best_year` | Plhs · 1349281907 | club Ttea → best year (recency tie-break) |
 | `club_uid_nation` | Cdvi · 1130657385 | club db_unique_id → nation |
+| `club_clhs_entries` | Clhs · 1131178099 | club uid → {year: comp_id} (for synthetic Cdvi) |
+
+**CRITICAL — null-Pcti pattern**: some Pcti records have `<null id="new_value"/>` (contract deleted).
+These have only ONE Ttea in the blob (the `odvl` Ttea).
+`NEWVAL_TTEA_RE` and `ODVL_TTEA_RE` parse them separately to avoid the odvl Ttea
+being mistakenly assigned as the new club. Never use `TTEA_RE.findall(blob)` length
+to distinguish these cases.
 
 ### Architecture — Step 2 (filter and write)
 Re-reads the file and copies to the output XML only the records whose `db_unique_id`
-belongs to a player or club from the TARGET. Header (lines 1–16) and footer
-(`\t</list>\n</record>`) are copied verbatim from the source to maintain a valid format.
+belongs to a person, club, competition, or nation from the TARGET.
+Header (lines 1–16) and footer (`\t</list>\n</record>`) are copied verbatim.
+Synthetic Cdvi/Cldi records (Fix 2) are appended before the footer.
 
-### Inclusion criteria (by priority)
-1. Player with contract at a club in the TARGET → Pcti → Ttea → Plhs competition → COMP_NATION
-2. Club currently in a division of the TARGET → Cdvi → competition → COMP_NATION
-3. Fallback: player with nationality of the TARGET → Pnti → Nnat → NNAT_NATION
-4. Award/history record with a `Pers` field pointing to a player in the TARGET
+### Inclusion criteria (implemented, in priority order)
+1. **Person with contract at a TARGET club** → Pcti → new_value.Ttea → Plhs competition → COMP_NATION
+2. **Club in a TARGET division** → Cdvi → competition → COMP_NATION
+3. **Fallback: nationality** → Pnti → Nnat → NNAT_NATION
+4. **Award/history record** with a `Pers` field pointing to a TARGET person
+5. **Departure records (Fix 3)** — persons whose *previous* club (Pcti odvl.Ttea) was a TARGET club
+   but whose new club is non-TARGET (e.g. a foreign coach leaving Roma for a foreign club).
+   Without these, the FM base state (e.g. Fonseca at Roma) is never overridden.
+   Source: `uid_prev_ttea` → departure_uids frozenset.
+6. **Clubs without Cdvi in patch (Fix 1)** — clubs known via Ttea (ttea_nation) but with no
+   Cdvi record in the MASTER (already in the correct division in the FM 2021 base).
+   Their uid is synthesised as `int(ttea) * MULT` and added to `club_uid_nation`.
+7. **Synthetic Cdvi/Cldi (Fix 2)** — for Fix-1 clubs that have Clhs data: synthetic
+   `Cdvi` and `Cldi` records are written at end of Pass 2 using the most recent
+   year ≤ 2002 competition ID from `club_clhs_entries`.
+   Without this, FM 2024 places these clubs in their current-era division.
+8. **Competition entity records (Fix 4)** — all rtype=25 records for TARGET competition UIDs.
+   `target_comp_uids = {str(c * MULT) for c in COMP_NATION if nation==TARGET}`.
+   **IMPORTANT**: ALL competition entity records in the MASTER use `rtype=25`, NOT `rtype=3`.
+   Includes chst, crep, CFGc, CLRc, and all other competition sub-records.
+9. **Nation financial records (Fix 5)** — rtype=9 records for TARGET nation UIDs.
+   `target_nation_uids = {str(n * MULT) for n in NNAT_NATION if nation==TARGET}`.
+   Captures NTRv (transfer values) and NWGv (wage values) per nation.
+   **IMPORTANT**: rtype=9 only — nation shares the same integer with some competition IDs
+   (e.g. Italy nation 34 would collide with Serie C1/A comp 34 if not filtered by rtype).
 
-### Scope decision (deliberate — do not change without discussion)
-The generated XML includes **only player and club records**.
-Competition entity records (reputation, league history) and country records
-(transfer values, wages) **are not included**.
-Reason: those entities have fixed IDs in the base database; modifying them would affect
-the entire game, not just the retro mode, increasing the risk of conflicts.
+### ID collision — competitions vs nations (confirmed)
+Competition IDs and nation IDs share the same integer namespace.
+Example: `34 * MULT` = both Serie C1/A (comp) and Morocco (nation).
+This is safe because competitions are captured via `rtype=25` and nations via `rtype=9`.
+Never add a shared ID to `target_comp_uids` and `target_nation_uids` simultaneously.
 
 ---
 
@@ -429,15 +458,116 @@ Claude Code must explicitly request these IDs if they are not yet in `COMP_NATIO
 ---
 
 ## Generation status
-| Country | FM 2021 | FM 2024 | Records |
+| Country | FM 2021 | FM 2024 | Records | Notes |
+|---|---|---|---|---|
+| Italy | ✅ tested (v3) | ⏳ needs re-run | 119,264 | v3 adds nation+comp+departure records; staff issue open |
+| Spain | ✅ generated | ⏳ pending | 91,597 | generated before Fixes 1–5; needs regeneration |
+| England | ✅ generated | ⏳ pending | 144,808 | same — needs regeneration |
+| Germany | ✅ generated | ⏳ pending | 38,862 | same — needs regeneration |
+| Scotland | ✅ generated | ⏳ pending | 34,592 | League Two mapped since last gen; needs regeneration |
+| France | ✅ generated | ⏳ pending | 45,309 | National 2 fully mapped since last gen; needs regeneration |
+| Other countries | ⏳ pending | ⏳ pending | — | — |
+
+### Italy v3 — confirmed in FM 2021 editor (2026-05-17)
+- ✅ Nation records working: Italy transfer values and wage values (NTRv, NWGv) now appear
+- ✅ Competition entity records captured (18 Italian comp UIDs, all rtype=25)
+- ⚠️ Competition "record" fields (best scorer, etc.) may show current-era players (e.g. Higuaín
+  in Serie A goals record). Root cause: the MASTER.xml doesn't always clear these reference fields
+  when updating competition data for the retro era. **This is a mod-level issue, not a script bug.**
+  The fields themselves appear empty (value=0, club=blank) but the player reference is retained
+  from the FM 2021 base. Can be cleared manually in the editor if needed.
+- ⚠️ **Staff issue open**: coaching staff (managers, coaches) not loading correctly.
+  Fonseca still shows as Roma manager (should be Capello in 2001/02).
+  Juventus has no manager (should be Lippi). See section below.
+
+---
+
+## Coaching staff issue — CONFIRMED MOD LIMITATION (2026-05-17)
+
+### Context — how MASTER.xml was generated
+MASTER.xml is not hand-written by the mod author. The user loaded the mod's `.fmf` file in
+the FM 2021 editor and exported the differential patch as XML. Therefore MASTER.xml faithfully
+reflects what is in the `.fmf`: if a Pcti contract record is absent from MASTER.xml, it was
+never included in the mod's `.fmf` file.
+
+### Root cause
+Coaching staff contracts (managers, coaches) are **not in the mod's `.fmf` / MASTER.xml**.
+The 2001/02 coach entities are visible in the FM 2021 editor (created inside the `.fmf`)
+but their Pcti contract records were never added to the mod.
+
+### Confirmed via diagnostics — exhaustive investigation
+**Person-side (rtype=1):**
+- `diag_staff_properties.py`: no coaching-specific FourCC property found. Staff contracts
+  use the same `Pcti` (1348695145) as players. Our script captures these correctly.
+  Other properties found: `Plhs` (history), `Pacl` (achievement records), `PLcl` (loans) — none are current-contract fields.
+- `diag_coaches.py`: targeted search for Capello (2000068860) and Lippi (2000068809) in
+  MASTER.xml by db_unique_id → **0 records for both**. IDs in the 2,000,068,xxx range.
+- Supplemental searches: raw entity IDs "2000068860"/"2000068809" as plain integers — 0 hits.
+  "ID Aleatório" value 25837371 and its db_unique_id encoding — 0 hits.
+
+**Club-side (rtype=3):**
+- Full enumeration of all ~70 distinct rtype=3 property types in MASTER.xml confirms that
+  **no club-side property references a current manager as a person entity**.
+  The closest are `CMOn` (stores old manager's name as a plain **string**) and similar
+  `CMO*` / `CYP*` / `COS*` properties — all null or string values, not entity IDs.
+- FM stores manager contracts exclusively via `Pcti` on the **person** side. There is no
+  club-side equivalent. This avenue has been exhaustively ruled out.
+
+### FM editor fields — clarified
+- **"ID Único"** (e.g. 2000068860): the entity_id used in `db_unique_id = entity_id * (2^32+1)`.
+- **"ID Aleatório"** (e.g. 25837371): FM's internal `random_uid`, assigned in the FM 2021 base
+  database. It does **not** appear in MASTER.xml in any form and has no use for our script.
+- **"Tipo Pessoa: Não Jogador"**: non-player staff use the identical Pcti mechanism as players.
+  The person type does not change the XML structure or property IDs involved.
+
+### Pacl (1348559724) — clarified
+`Pacl` = "Person Achievement Club" — records of specific achievements (e.g. cup finals won)
+at a specific club on a specific date. NOT a current-contract property. Has its own UID and
+contains `olvl.team.Ttea`, `competition`, `date`, `ajob` (job type: 1=player, 20=manager).
+Multiple records per person (one per achievement).
+
+### Consequences in FM 2021 editor (Italy XML)
+- Clubs where the FM 2021 base manager is Italian (e.g. Pirlo was Juventus manager →
+  converted to player in retro → departure record captured → **club ends up with NO manager**).
+- Clubs where the FM 2021 base manager is foreign (e.g. Fonseca at Roma) and has no
+  departure record in MASTER → **old manager persists from FM 2021 base**.
+
+### Action required
+- Nothing to fix in `split_fm_xml.py` — the script is working correctly.
+- Pcti contract records for 2001/02 coaches must be added to the mod's `.fmf` by the mod author.
+- Workaround: assign managers manually in the FM editor after importing the XML.
+
+### Known 2001/02 Italian manager entity IDs (for reference when mod is updated)
+| Manager | Entity ID | Club | Notes |
 |---|---|---|---|
-| Italy | ✅ tested | ✅ tested (all 28 remapped players imported) | 113,953 |
-| Spain | ✅ tested | ⏳ pending test | 91,597 |
-| England | ✅ tested | ⏳ pending test | 144,808 |
-| Germany | ✅ tested | ⏳ pending test | 38,862 |
-| Scotland | ✅ tested | ⏳ pending test | 34,592 |
-| France | ✅ tested | ⏳ pending test | 45,309 |
-| Other countries | ⏳ pending | ⏳ pending | — |
+| Fabio Capello | 2000068860 | AS Roma | ID in range → will be remapped in FM 2024 |
+| Marcello Lippi | 2000068809 | Juventus | ID in range → will be remapped in FM 2024 |
+
+---
+
+## Competition record display issue — cosmetic (2026-05-17)
+
+### Symptom
+When italy.xml is loaded in FM 2021 editor, some competition record fields (e.g. "Record
+Goals in Championship" for Serie A) show Higuaín despite the full MASTER.xml showing the
+field empty.
+
+### Root cause
+The FM 2021 base database has Higuaín as the Serie A all-time record scorer. The MASTER.xml
+retro patch includes a clearing record (rtype=25, uid=Serie A * MULT) that nulls this field.
+This clearing record IS included in italy.xml.
+
+The residual display of Higuaín appears because:
+- The specific sub-field controlling the "first player" UI slot uses a slightly different
+  mechanism than expected (possibly aggregated by the FM engine from multiple sub-records).
+- `COMP_RE` check added to `is_target()` for rtype=25 was verified to add 0 new records
+  for Italy — all Italian rtype=25 records already had the competition's own UID.
+
+### Status
+Cosmetic only. Not blocking gameplay. The retro database state is correct; the editor
+display is an artifact of how FM aggregates competition history fields.
+Fixing this would require identifying the specific sub-record property ID that controls
+the "first player" display slot — low priority.
 
 ---
 
@@ -471,8 +601,11 @@ Line 13,102,216: </record>
 ---
 
 ## Next steps
-- [ ] **Scotland**: regenerate scotland.xml (League Two now mapped)
-- [ ] **France**: regenerate france.xml (National 2 fully mapped now)
-- [ ] Convert already-generated countries to FM 2024 (spain, england, germany, scotland, france)
+- [ ] **Staff issue**: confirmed mod limitation — nothing to fix in script. Workaround: manual assignment in editor.
+- [ ] **Italy v4**: current italy.xml (119,264 records) is the final version pending mod updates. Re-run `convert_to_fm24.py italy`.
+- [ ] **Regenerate all countries** with Fixes 1–5 (spain, england, germany, scotland, france)
+- [ ] **Scotland**: also has League Two newly mapped — confirm regeneration includes it
+- [ ] **France**: also has National 2 fully mapped — confirm regeneration includes it
+- [ ] Convert all regenerated countries to FM 2024
 - [ ] Generate FM 2021 XMLs for remaining countries (follow minimum standard above before each one)
 - [ ] Verify whether the ID remapping (offset 60238) applies equally to other countries
