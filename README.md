@@ -36,7 +36,14 @@ To adapt for a different FM version pair (FM X → FM Y):
 
 - **Coaching staff**: manager and coach contracts simply do not exist in the source XML. Workaround: assign managers manually in the FM editor after importing.
 - **Competition record display**: some competition fields (e.g. all-time record scorer) may show current-era players despite the retro patch including a clearing record. This is an FM engine display artefact, not a script bug — cosmetic only, does not affect gameplay.
-- **ID remapping duplicates**: remapping player IDs to fit the target FM's range can produce duplicate entries for players who also exist in the target FM's base database (e.g. as retired persons). Easy to resolve manually in the editor.
+- **ID remapping — formula exceptions**: the default offset formula (`retro_id − 60238`) works for most retro-created players, but has three categories of exception, all handled via `ID_OVERRIDE` in `convert_to_fm24.py`:
+  - *Formula ID exists but is a different person in FM24* (collision): remap is blocked; retro data for that player is silently dropped.
+  - *Formula ID does not exist and player has a different FM24 ID* (retired person / non-player): overridden to the correct FM24 entity ID.
+  - *Formula ID does not exist and player has no FM24 entity at all*: retro data is silently dropped — that player will not appear in FM24.
+  Exceptions verified for Italy (2026-05-23); other countries handled on demand when issues are found after import.
+- **Players permanently absent from FM24** (Italy): Aldair, Jason Mayélé, and Vittorio Mero have no usable FM24 entity — their retro data cannot be imported under any ID. These players simply will not appear.
+- **ID remapping duplicates**: for players whose formula ID maps to a retired/non-player entity in FM24, importing creates a second entry alongside the FM24 base version. Easy to resolve manually in the editor.
+- **Inherent entity conflicts**: players who exist in both the retro patch and the FM24 base database but with different roles (e.g. a player who became a manager by FM24) will have their FM24 data overwritten by the retro import. This is a limitation of the differential patch format — the retro update cannot distinguish whether the target entity has changed role.
 - **Not automatic**: nation and competition IDs must be confirmed in the FM editor for each country before generating an XML. The script cannot discover these automatically.
 
 ---
