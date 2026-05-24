@@ -425,6 +425,25 @@ Claude Code must explicitly request these IDs if they are not yet in `COMP_NATIO
 
 ---
 
+## FM24 missing players — confirmed limitation (2026-05-23)
+
+After importing `italy_fm24_final.xml`, Roma's squad showed only 23 of 46 FM21 players. The missing players fall into three categories:
+
+**Category A — problematic-range player with ID_OVERRIDE=None (expected)**
+- Aldair (pid=2000066648): already blocked in ID_OVERRIDE; FM24 ignores the retro ID and no FM24 entity exists.
+
+**Category B — normal-range entity_ids absent from FM24 base (~19 players)**
+Players such as Balbo, Candela, Casavola, Cassano, Cremaschini, Delvecchio, Ferronetti, Fuser, Guastella, Guigou, Lassissi, Meloni, Pelizzoli, S. Pepe, Scarlato, Tinazzi, Vitolo, Zebina, and others: their records ARE present in italy.xml with Pcti→Ttea=1100 (Roma), but FM24 silently ignores them because their entity_ids don't exist in the FM24 base database. Fix requires finding their FM24 entity_ids and extending convert_to_fm24.py with normal-range remapping (per-record computation: `new_uid = new_entity_id × MULT + (old_uid % MULT)`).
+
+**Category C — zero records in MASTER.xml (players already at Roma in FM21 base)**
+- Cerci, Panucci, Tommasi: the retro mod made no changes for them, so MASTER.xml has zero records. split_fm_xml.py cannot capture them (not in uid_ttea, not in uid_nnat). They are absent from italy.xml entirely — not an FM24 limitation but a source-data limitation.
+
+**Root cause**: FM24's differential patch mechanism can only modify entities that already exist in FM24's base database. Records for unknown entity_ids are silently dropped.
+
+**Investigated and ruled out (2026-05-24)**: direct `.fmf` manipulation is not feasible — see "`.fmf` binary format" note in Technical references. The `.fm` save-file path remains theoretically open but unexplored.
+
+---
+
 ## Coaching staff — confirmed mod limitation (2026-05-17)
 Contracts absent from MASTER.xml — not in the mod's `.fmf`. Nothing to fix in the script.
 Workaround: assign managers manually in the FM editor after importing.
@@ -434,10 +453,22 @@ Full diagnostic details in `reference/staff_investigation.md`.
 ---
 
 ## Technical references
+
+### `.fmf` binary format — investigated (2026-05-24)
+`The 2001 02 DB v5.fmf` (13 MB) is the same content as `MASTER.xml` (483 MB), compressed.
+The format is a proprietary Sports Interactive binary, version-specific and undocumented publicly.
+- Entropy ~6.6 bits/byte; no recognisable compression magic (not zlib/LZ4/zstd/raw deflate).
+- No readable strings in the first 4 KB — data is compressed or encoded throughout.
+- **FM Resource Archiver** (official SI tool) opens only *graphics* `.fmf` files, not database patches.
+- No open-source community tool can parse database `.fmf` files.
+- FM editors are version-locked: FM 2021 `.fmf` cannot be loaded by the FM 2024 editor.
+- **Conclusion**: programmatic manipulation of `.fmf` files is not feasible. The XML workflow is the only viable approach and is the community standard.
+
 - **FREE_AGENT_TTEA**: `1171` — virtual free-agents team; ignore in club lookups
 - **Barcelona**: Ttea=1708 → competition=67 (confirmed reference)
 - **Real Madrid**: Ttea=1736 → competition=67
 - **Arsenal**: db_unique_id=2585570312794
+- **AS Roma**: entity_id=1100 (confirmed via Totti pid=2000066931 and Batistuta pid=2000066588, both Pcti→Ttea=1100)
 
 ### Source file structure
 ```
@@ -469,3 +500,6 @@ Line 13,102,216: </record>
 - [ ] Convert all regenerated countries to FM 2024
 - [ ] Generate FM 2021 XMLs for remaining countries (follow minimum standard above before each one)
 - [ ] **ID overrides for other countries**: verify problematic IDs in FM24 editor on demand after import
+- [ ] **Normal-range remapping (Italy)**: find FM24 entity_ids for ~19 missing Roma players; extend convert_to_fm24.py with per-record uid recomputation (`new_uid = new_entity_id × MULT + (old_uid % MULT)`)
+- [ ] **Cerci / Panucci / Tommasi**: confirm whether these players exist anywhere in FM24 base; if so, they need a synthetic record injected (not a remap — they have no source records at all)
+- [ ] **Future**: investigate direct `.fm` save-file manipulation as an alternative to XML patching (`.fmf` database format ruled out — proprietary binary, no public tools; see Technical references)
