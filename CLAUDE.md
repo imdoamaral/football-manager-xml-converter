@@ -444,6 +444,54 @@ Players such as Balbo, Candela, Casavola, Cassano, Cremaschini, Delvecchio, Ferr
 
 ---
 
+## Resumed 2026-11 — new direction: create all persons with NEW IDs
+
+**Why:** almost every open problem (Category B/C missing players, ID_OVERRIDE exceptions,
+formula collisions, retired duplicates, staff) comes from patching persons as *diffs* on top of
+FM24 base entities. A known FM modder (Discord) does it differently:
+> "I have mine where all players and staff become new IDs. I've kept competitions, awards etc as their current IDs"
+
+So: every person is **created** in the FM24 patch (ADDR record + all properties) with a fresh ID;
+competitions, nations, awards, clubs keep their FM24 base IDs.
+
+**Creation record format (from github.com/awesomeaidan76/Retro-FM-Workbench-V0.2 — NOT verified for FM24):**
+```
+<record>
+  <integer id="database_table_type" value="55"/>
+  <unsigned id="property" value="1094992978"/>   <!-- FourCC 'ADDR' -->
+  <record id="new_value">
+    <integer id="database_table_type" value="7"/>  <!-- person -->
+    <integer id="dcty" value="0"/>
+    <large id="db_unique_id" value="..."/>
+  </record>
+</record>
+```
+That repo leaves FM24 property IDs / versions blank on purpose (defers to a tool called "FMME", URL unknown).
+No other public FM21→FM24 converter was found.
+
+**Hypothesis to check first:** MASTER.xml should contain ADDR (rtype=55) records for the persons the mod
+created (2,000,040,000–2,000,070,000 range). If FM24 "silently ignores" them, the cause may be that
+convert_to_fm24.py only swaps version numbers and does not adapt the creation record to FM24 format —
+in which case the `-60238` formula/ID_OVERRIDE was working around the wrong problem.
+
+**Hard part:** persons that already existed in the FM21 base have only diffs in MASTER.xml (no name/DOB/
+attributes). Creating them from scratch needs their full data from another source. Question pending to
+the modder: where does he get full person data and which tool generates the new IDs / ID start point?
+
+**Inputs requested from the user (folder `anexos-claude`, outside the repo):**
+1. MASTER.xml + existing `output/` files.
+2. Minimal XMLs from BOTH editors (FM21 and FM24): (a) one NEW player created from scratch with only
+   name, DOB, nationality, club contract and one attribute; (b) one NEW non-player (manager) with a
+   manager contract at a club. Diffing them gives the exact ADDR format and property IDs per version.
+
+**Next steps (in order):**
+1. Inspect samples from (2): extract ADDR format and FourCC property IDs for FM21 vs FM24.
+2. Count/inspect rtype=55 records in MASTER.xml; check whether retro-created persons have full data.
+3. Test hypothesis above with a tiny FM24 patch (one created player) imported in the FM24 editor.
+4. Redesign convert_to_fm24.py: re-create all persons with new IDs, keep comp/nation/club/award IDs.
+
+---
+
 ## Coaching staff — confirmed mod limitation (2026-05-17)
 Contracts absent from MASTER.xml — not in the mod's `.fmf`. Nothing to fix in the script.
 Workaround: assign managers manually in the FM editor after importing.
@@ -489,7 +537,7 @@ Line 13,102,216: </record>
 | 9 | Financial |
 | 21 | Boolean flags |
 | 25 | Competition history records |
-| 55 | Cross-references |
+| 55 | Entity creation container — `property=1094992978` = FourCC `ADDR` ("add record"); nested `new_value` holds the new entity (`database_table_type=7` for persons, `dcty`, `db_unique_id`). Unverified against our files — see "Resumed 2026-11" |
 
 ---
 
