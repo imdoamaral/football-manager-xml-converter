@@ -1,57 +1,61 @@
 # FM XML Converter
 
-Two Python scripts that split a Football Manager XML patch file by country and convert it between FM versions. Built for the FM 2001/02 retro database (FM 2021 → FM 2024), but the architecture generalises to any FM version pair.
+Python scripts that split a Football Manager XML patch file by country and convert it between FM versions. Built for the FM 2001/02 retro database (FM 2021 → FM 2024), but the approach generalises to any FM version pair.
 
-This is not a plug-and-play tool — it is a **reference implementation**. The scripts are the contribution; adapting them to a different version pair requires rediscovering header formats, version numbers, and ID offsets specific to your FM versions.
+This is not a plug-and-play tool — it is a **reference implementation**. The scripts are the contribution; adapting them to a different version pair requires rediscovering record formats, version numbers and IDs specific to your FM versions (see `CLAUDE.md`).
+
+---
+
+## Scripts
+
+| Script | What it does |
+|---|---|
+| `split_fm_xml.py <country>` | Streams the FM 2021 master patch and writes `output/fm21/<country>.xml` with the records of that country's persons, clubs and competitions (including `ADDR` creation records). |
+| `convert_to_fm24.py <country>` | Converts it to `output/fm24/<country>_fm24_final.xml` for the FM 2024 editor (record format, references, history, dates, person creation — see below). `--auto-deletes` also deletes FM24-only history/legend rows (off by default). |
+| `build_checklist.py <country>` | Writes `output/fm24/<country>_checklist.md`: what to check and what to delete by hand in the FM 2024 editor after importing. |
+| `build_club_history.py <country>` | Optional. Builds the FM24-only club/competition history rows (seasons 2020/21–2022/23) from real league tables on Wikipedia → `reference/club_history/<country>.json`; used by the checklist and by `--auto-deletes`. |
+
+## Workflow per country
+
+1. Confirm in the FM 2021 editor the minimum IDs: nation + divisions 1–3 + main cup (never guess IDs).
+2. `python split_fm_xml.py <country>` → `python convert_to_fm24.py <country>` → `python build_checklist.py <country>`.
+3. Import `<country>_fm24_final.xml` in the FM 2024 editor, check a few squads, then work through the checklist.
+
+**FM 2021 export (recommended):** start a game in FM 2021 with the retro database, and save with Ctrl+P (text) the player search and the staff search with all players/staff, using a view with the *Unique ID*, *Name* and *Nationality* columns, as `anexos-claude/fm21_*.rtf`. The club you manage in that game is excluded from the searches — export its squad and staff screens too. The converter uses it to name persons the patch only partially describes.
+
+## What the converter does (FM 2021 → FM 2024)
+
+- **Record format**: version 3569, header/footer as saved by the FM 2024 editor; entity references become `<large>` uid + `DBID` (no `DBID` in old-value blocks).
+- **Mod-created persons**: copied with their `ADDR` creation record (they include players and staff such as managers).
+- **Persons that exist only in the FM 2021 base**: a creation record is added for every FM 2021 base person in the patch — harmless for persons that already exist in FM 2024, and it creates the ones FM 2024 removed. Missing name/nationality are filled from the FM 2021 export.
+- **Player history**: FM 2024 list format (`trib` field); histories the mod builds from scratch are cleared first.
+- **Dates**: the mod shifts person dates +19 years so FM 2021's 2020 start represents 2001; the converter adds +3 years for FM 2024's 2023 start.
+- **Club relations**: favourite/disliked person lists that the mod edits are cleared (FM 2024's entries are modern-era).
+
+## Limitations
+
+- **Manual deletes**: FM 2024's base contains content that did not exist in FM 2021 (club and competition history 2021–2023, newer legends/icons) or that changed (some history rows, legend ratings). The mod's row-by-row deletes cannot match it, so leftovers remain; deleting is quick in the editor and the checklist lists them.
+- **Pre-2001 history of recreated persons**: for FM 2021 base persons that FM 2024 removed, the patch only holds what the mod changed, so their career history before 2001 is not recreated. Persons with no name anywhere (patch or export) are not created.
+- **Competition record display**: some competition records (e.g. all-time top scorer) may show current-era players. Cosmetic.
+- **ID remapping (legacy)**: FM 2021 base persons with IDs 2,000,040,000–2,000,070,000 are mapped to FM 2024 with `retro_id − 60238` plus `ID_OVERRIDE` exceptions (verified for Italy). Formula collisions are blocked.
+- **Inherent entity conflicts**: a person who exists in both databases with a different role (e.g. player who became a manager) gets the retro data applied over the FM 2024 entity.
+- **Not automatic**: nation and competition IDs must be confirmed in the FM editor for each country.
+- **Not handled yet**: award history shared by all countries (Ballon d'Or etc.), cup competition history.
 
 ---
 
 ## Adapting for other FM versions
 
-To adapt for a different FM version pair (FM X → FM Y):
+**From the source FM (FM X):** header lines, record version numbers, FourCC property IDs (Pcti, Pnti, Plhs, Cdvi…), free-agent team ID.
 
-**From the source FM (FM X):**
-- [ ] Header format: the lines before `<list id="db_changes">` — count and copy verbatim
-- [ ] Record version numbers: grep for `id="version"` in the source XML
-- [ ] FourCC property IDs for Pcti, Pnti, Plhs, Cdvi — confirm in the FM editor; may differ between versions
-- [ ] Free agent team ID: the virtual team for uncontracted players; must be excluded from club lookups
+**From the target FM (FM Y):** create a minimal patch in both editors (one new player with name, date of birth, nationality, club contract, one attribute and one history row; one new manager) and diff them — this reveals the creation record, reference format and list formats. Then compare editor samples whenever something fails: the FM Y editor shows a *Success* column for every change.
 
-**From the target FM (FM Y):**
-- [ ] Header format: inspect the first ~20 lines of any FM Y patch file
-- [ ] Record version number: same — grep for `id="version"`
-- [ ] Removed or renamed fields: compare a sample record in FM X vs FM Y
-
-**ID remapping:**
-- [ ] Import a country's XML into the target FM; records that fail to appear are likely in the problematic ID range
-- [ ] Find one known player in both the retro patch and the target FM base database; compare `player_id` values to derive the offset
-- [ ] Verify with at least 5–10 other players before applying globally
-
-**Nation and competition IDs:**
-- [ ] Must be confirmed in the FM X editor — never guess
-- [ ] Minimum required: nation ID + divisions 1–3 + main cup, per country
-
----
-
-## Limitations
-
-- **Mod-created persons (fixed 2026-11-26)**: persons the retro mod created from scratch come with an `ADDR` creation record (`database_table_type=55`). Earlier versions of `split_fm_xml.py` dropped it, so the FM editors silently discarded those players and staff. The scripts now copy it, and `convert_to_fm24.py` converts entity references to the FM24 format (`<large>` uid + `DBID`).
-- **Coaching staff**: previously documented as absent from the source XML. Most likely the same `ADDR` issue (e.g. Capello has a Roma contract in the source); pending confirmation after re-import.
-- **Competition record display**: some competition fields (e.g. all-time record scorer) may show current-era players despite the retro patch including a clearing record. This is an FM engine display artefact, not a script bug — cosmetic only, does not affect gameplay.
-- **ID remapping — formula exceptions**: the default offset formula (`retro_id − 60238`) works for most retro-created players, but has three categories of exception, all handled via `ID_OVERRIDE` in `convert_to_fm24.py`:
-  - *Formula ID exists but is a different person in FM24* (collision): remap is blocked; retro data for that player is silently dropped.
-  - *Formula ID does not exist and player has a different FM24 ID* (retired person / non-player): overridden to the correct FM24 entity ID.
-  - *Formula ID does not exist and player has no FM24 entity at all*: retro data is silently dropped — that player will not appear in FM24.
-  Exceptions verified for Italy (2026-05-23); other countries handled on demand when issues are found after import.
-- **Persons that exist only in the FM21 base**: the source patch holds only changes for them, not full data. If FM24's base has no entity with the same id, their records are ignored on import. The ~19 Roma players once attributed to this turned out to be mod-created persons (see above); the real size of this group is still to be measured.
-- **Persons that exist only in the FM21 base (fixed 2026-11-26)**: `convert_to_fm24.py` adds a creation record for every FM21-base person in the patch (harmless for persons that already exist in FM24) and fills the name and nationality the patch lacks from an FM21 in-game export (player/staff search with the Unique ID column, Ctrl+P, saved as `anexos-claude/fm21_*.rtf`). Pre-2001 career history of these persons is not in the patch and is not recreated. Persons with no name anywhere are skipped. (Cerci, Panucci and Tommasi, once thought to have no records at all, were among these.)
-- **ID remapping duplicates**: for players whose formula ID maps to a retired/non-player entity in FM24, importing creates a second entry alongside the FM24 base version. Easy to resolve manually in the editor.
-- **Inherent entity conflicts**: players who exist in both the retro patch and the FM24 base database but with different roles (e.g. a player who became a manager by FM24) will have their FM24 data overwritten by the retro import. This is a limitation of the differential patch format — the retro update cannot distinguish whether the target entity has changed role.
-- **Not automatic**: nation and competition IDs must be confirmed in the FM editor for each country before generating an XML. The script cannot discover these automatically.
+**Nation and competition IDs:** must be confirmed in the FM X editor — never guess.
 
 ---
 
 ## Contributing
 
-The project includes a `CLAUDE.md` file with the full context behind design decisions: confirmed IDs for nations and competitions, inclusion criteria, ID remapping details, and known limitations per country. Read it before extending the scripts or adding support for a new country or FM version — it will save significant reverse-engineering time.
+`CLAUDE.md` holds the full context behind design decisions: confirmed IDs for nations and competitions, record formats verified in both editors, test results and next steps. Read it before extending the scripts or adding a new country or FM version.
 
 Bugs and improvements welcome via issues or PRs.
