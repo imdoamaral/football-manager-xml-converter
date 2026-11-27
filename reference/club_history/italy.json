@@ -1,0 +1,2077 @@
+{
+ "competition_ids": {
+  "Serie A table": 32,
+  "Serie B table": 33,
+  "Serie D|Girone I/Group I": 1400408,
+  "Serie C Group B table": 43127173,
+  "Serie C Group C table": 43127174,
+  "Serie C Group A table": 43127172
+ },
+ "clubs": {
+  "1099": {
+   "link": "AC Milan",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 2,
+     "poin": 79,
+     "play": 38,
+     "wins": 24,
+     "draw": 7,
+     "lost": 7,
+     "gfor": 74,
+     "gaga": 41,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 1,
+     "poin": 86,
+     "play": 38,
+     "wins": 26,
+     "draw": 8,
+     "lost": 4,
+     "gfor": 69,
+     "gaga": 31,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 4,
+     "poin": 70,
+     "play": 38,
+     "wins": 20,
+     "draw": 10,
+     "lost": 8,
+     "gfor": 64,
+     "gaga": 43,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1100": {
+   "link": "AS Roma",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 7,
+     "poin": 62,
+     "play": 38,
+     "wins": 18,
+     "draw": 8,
+     "lost": 12,
+     "gfor": 68,
+     "gaga": 58,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 6,
+     "poin": 63,
+     "play": 38,
+     "wins": 18,
+     "draw": 9,
+     "lost": 11,
+     "gfor": 59,
+     "gaga": 43,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 6,
+     "poin": 63,
+     "play": 38,
+     "wins": 18,
+     "draw": 9,
+     "lost": 11,
+     "gfor": 50,
+     "gaga": 38,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1106": {
+   "link": "Atalanta BC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 3,
+     "poin": 78,
+     "play": 38,
+     "wins": 23,
+     "draw": 9,
+     "lost": 6,
+     "gfor": 90,
+     "gaga": 47,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 8,
+     "poin": 59,
+     "play": 38,
+     "wins": 16,
+     "draw": 11,
+     "lost": 11,
+     "gfor": 65,
+     "gaga": 48,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 5,
+     "poin": 64,
+     "play": 38,
+     "wins": 19,
+     "draw": 7,
+     "lost": 12,
+     "gfor": 66,
+     "gaga": 48,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1110": {
+   "link": "SSC Bari",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127174,
+     "posi": 4,
+     "poin": 63,
+     "play": 36,
+     "wins": 18,
+     "draw": 9,
+     "lost": 9,
+     "gfor": 52,
+     "gaga": 34,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2022,
+     "comp": 43127174,
+     "posi": 1,
+     "poin": 75,
+     "play": 36,
+     "wins": 22,
+     "draw": 9,
+     "lost": 5,
+     "gfor": 52,
+     "gaga": 26,
+     "teams": 20,
+     "teams_alt": 18
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 3,
+     "poin": 65,
+     "play": 38,
+     "wins": 17,
+     "draw": 14,
+     "lost": 7,
+     "gfor": 58,
+     "gaga": 37,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1111": {
+   "link": "Bologna FC 1909",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 12,
+     "poin": 41,
+     "play": 38,
+     "wins": 10,
+     "draw": 11,
+     "lost": 17,
+     "gfor": 51,
+     "gaga": 65,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 13,
+     "poin": 46,
+     "play": 38,
+     "wins": 12,
+     "draw": 10,
+     "lost": 16,
+     "gfor": 44,
+     "gaga": 55,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 9,
+     "poin": 54,
+     "play": 38,
+     "wins": 14,
+     "draw": 12,
+     "lost": 12,
+     "gfor": 53,
+     "gaga": 49,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1113": {
+   "link": "Brescia Calcio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 7,
+     "poin": 56,
+     "play": 38,
+     "wins": 15,
+     "draw": 11,
+     "lost": 12,
+     "gfor": 61,
+     "gaga": 53,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 5,
+     "poin": 66,
+     "play": 38,
+     "wins": 17,
+     "draw": 15,
+     "lost": 6,
+     "gfor": 55,
+     "gaga": 35,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 16,
+     "poin": 40,
+     "play": 38,
+     "wins": 9,
+     "draw": 13,
+     "lost": 16,
+     "gfor": 36,
+     "gaga": 57,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1114": {
+   "link": "Cagliari Calcio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 16,
+     "poin": 37,
+     "play": 38,
+     "wins": 9,
+     "draw": 10,
+     "lost": 19,
+     "gfor": 43,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 18,
+     "poin": 30,
+     "play": 38,
+     "wins": 6,
+     "draw": 12,
+     "lost": 20,
+     "gfor": 34,
+     "gaga": 68,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 5,
+     "poin": 60,
+     "play": 38,
+     "wins": 15,
+     "draw": 15,
+     "lost": 8,
+     "gfor": 50,
+     "gaga": 34,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1120": {
+   "link": "Cesena FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127173,
+     "posi": 7,
+     "poin": 57,
+     "play": 38,
+     "wins": 15,
+     "draw": 12,
+     "lost": 11,
+     "gfor": 51,
+     "gaga": 42,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 43127173,
+     "posi": 3,
+     "poin": 67,
+     "play": 38,
+     "wins": 18,
+     "draw": 13,
+     "lost": 7,
+     "gfor": 53,
+     "gaga": 31,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2023,
+     "comp": 43127173,
+     "posi": 2,
+     "poin": 79,
+     "play": 38,
+     "wins": 23,
+     "draw": 10,
+     "lost": 5,
+     "gfor": 66,
+     "gaga": 24,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1122": {
+   "link": "AC ChievoVerona",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 8,
+     "poin": 56,
+     "play": 38,
+     "wins": 14,
+     "draw": 14,
+     "lost": 10,
+     "gfor": 50,
+     "gaga": 37,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1123": {
+   "link": "Como 1907",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127172,
+     "posi": 1,
+     "poin": 75,
+     "play": 38,
+     "wins": 23,
+     "draw": 6,
+     "lost": 9,
+     "gfor": 59,
+     "gaga": 44,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 13,
+     "poin": 47,
+     "play": 38,
+     "wins": 11,
+     "draw": 14,
+     "lost": 13,
+     "gfor": 49,
+     "gaga": 54,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 13,
+     "poin": 47,
+     "play": 38,
+     "wins": 10,
+     "draw": 17,
+     "lost": 11,
+     "gfor": 47,
+     "gaga": 48,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1124": {
+   "link": "Cosenza Calcio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 17,
+     "poin": 35,
+     "play": 38,
+     "wins": 6,
+     "draw": 17,
+     "lost": 15,
+     "gfor": 29,
+     "gaga": 47,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 16,
+     "poin": 35,
+     "play": 38,
+     "wins": 8,
+     "draw": 11,
+     "lost": 19,
+     "gfor": 36,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 17,
+     "poin": 40,
+     "play": 38,
+     "wins": 9,
+     "draw": 13,
+     "lost": 16,
+     "gfor": 30,
+     "gaga": 53,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1126": {
+   "link": "Empoli FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 1,
+     "poin": 73,
+     "play": 38,
+     "wins": 19,
+     "draw": 16,
+     "lost": 3,
+     "gfor": 68,
+     "gaga": 35,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 14,
+     "poin": 41,
+     "play": 38,
+     "wins": 10,
+     "draw": 11,
+     "lost": 17,
+     "gfor": 50,
+     "gaga": 70,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 14,
+     "poin": 43,
+     "play": 38,
+     "wins": 10,
+     "draw": 13,
+     "lost": 15,
+     "gfor": 37,
+     "gaga": 49,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1129": {
+   "link": "ACF Fiorentina",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 13,
+     "poin": 40,
+     "play": 38,
+     "wins": 9,
+     "draw": 13,
+     "lost": 16,
+     "gfor": 47,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 7,
+     "poin": 62,
+     "play": 38,
+     "wins": 19,
+     "draw": 5,
+     "lost": 14,
+     "gfor": 59,
+     "gaga": 51,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 8,
+     "poin": 56,
+     "play": 38,
+     "wins": 15,
+     "draw": 11,
+     "lost": 12,
+     "gfor": 53,
+     "gaga": 43,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1132": {
+   "link": "Genoa CFC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 11,
+     "poin": 42,
+     "play": 38,
+     "wins": 10,
+     "draw": 12,
+     "lost": 16,
+     "gfor": 47,
+     "gaga": 58,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 19,
+     "poin": 28,
+     "play": 38,
+     "wins": 4,
+     "draw": 16,
+     "lost": 18,
+     "gfor": 27,
+     "gaga": 60,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 2,
+     "poin": 73,
+     "play": 38,
+     "wins": 21,
+     "draw": 11,
+     "lost": 6,
+     "gfor": 53,
+     "gaga": 28,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1135": {
+   "link": "Inter Milan",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 1,
+     "poin": 91,
+     "play": 38,
+     "wins": 28,
+     "draw": 7,
+     "lost": 3,
+     "gfor": 89,
+     "gaga": 35,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 2,
+     "poin": 84,
+     "play": 38,
+     "wins": 25,
+     "draw": 9,
+     "lost": 4,
+     "gfor": 84,
+     "gaga": 32,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 3,
+     "poin": 72,
+     "play": 38,
+     "wins": 23,
+     "draw": 3,
+     "lost": 12,
+     "gfor": 71,
+     "gaga": 42,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1139": {
+   "link": "Juventus FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 4,
+     "poin": 78,
+     "play": 38,
+     "wins": 23,
+     "draw": 9,
+     "lost": 6,
+     "gfor": 77,
+     "gaga": 38,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 4,
+     "poin": 70,
+     "play": 38,
+     "wins": 20,
+     "draw": 10,
+     "lost": 8,
+     "gfor": 57,
+     "gaga": 37,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 7,
+     "poin": 62,
+     "play": 38,
+     "wins": 22,
+     "draw": 6,
+     "lost": 10,
+     "gfor": 56,
+     "gaga": 33,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1140": {
+   "link": "SS Lazio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 6,
+     "poin": 68,
+     "play": 38,
+     "wins": 21,
+     "draw": 5,
+     "lost": 12,
+     "gfor": 61,
+     "gaga": 55,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 5,
+     "poin": 64,
+     "play": 38,
+     "wins": 18,
+     "draw": 10,
+     "lost": 10,
+     "gfor": 77,
+     "gaga": 58,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 2,
+     "poin": 74,
+     "play": 38,
+     "wins": 22,
+     "draw": 8,
+     "lost": 8,
+     "gfor": 60,
+     "gaga": 30,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1141": {
+   "link": "US Lecce",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 4,
+     "poin": 62,
+     "play": 38,
+     "wins": 16,
+     "draw": 14,
+     "lost": 8,
+     "gfor": 68,
+     "gaga": 47,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 1,
+     "poin": 71,
+     "play": 38,
+     "wins": 19,
+     "draw": 14,
+     "lost": 5,
+     "gfor": 59,
+     "gaga": 31,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 16,
+     "poin": 36,
+     "play": 38,
+     "wins": 8,
+     "draw": 12,
+     "lost": 18,
+     "gfor": 33,
+     "gaga": 46,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1147": {
+   "link": "Modena FC 2018",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127173,
+     "posi": 4,
+     "poin": 70,
+     "play": 38,
+     "wins": 21,
+     "draw": 7,
+     "lost": 10,
+     "gfor": 51,
+     "gaga": 28,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 43127173,
+     "posi": 1,
+     "poin": 88,
+     "play": 38,
+     "wins": 27,
+     "draw": 7,
+     "lost": 4,
+     "gfor": 69,
+     "gaga": 25,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 10,
+     "poin": 48,
+     "play": 38,
+     "wins": 13,
+     "draw": 9,
+     "lost": 16,
+     "gfor": 47,
+     "gaga": 53,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1149": {
+   "link": "AC Monza",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 3,
+     "poin": 64,
+     "play": 38,
+     "wins": 17,
+     "draw": 13,
+     "lost": 8,
+     "gfor": 51,
+     "gaga": 33,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 4,
+     "poin": 67,
+     "play": 38,
+     "wins": 19,
+     "draw": 10,
+     "lost": 9,
+     "gfor": 60,
+     "gaga": 38,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 11,
+     "poin": 52,
+     "play": 38,
+     "wins": 14,
+     "draw": 10,
+     "lost": 14,
+     "gfor": 48,
+     "gaga": 52,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1150": {
+   "link": "SSC Napoli",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 5,
+     "poin": 77,
+     "play": 38,
+     "wins": 24,
+     "draw": 5,
+     "lost": 9,
+     "gfor": 86,
+     "gaga": 41,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 3,
+     "poin": 79,
+     "play": 38,
+     "wins": 24,
+     "draw": 7,
+     "lost": 7,
+     "gfor": 74,
+     "gaga": 31,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 1,
+     "poin": 90,
+     "play": 38,
+     "wins": 28,
+     "draw": 6,
+     "lost": 4,
+     "gfor": 77,
+     "gaga": 28,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1154": {
+   "link": "Calcio Padova",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127173,
+     "posi": 2,
+     "poin": 79,
+     "play": 38,
+     "wins": 24,
+     "draw": 7,
+     "lost": 7,
+     "gfor": 68,
+     "gaga": 26,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 43127172,
+     "posi": 2,
+     "poin": 85,
+     "play": 38,
+     "wins": 25,
+     "draw": 10,
+     "lost": 3,
+     "gfor": 60,
+     "gaga": 26,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 43127172,
+     "posi": 5,
+     "poin": 59,
+     "play": 38,
+     "wins": 15,
+     "draw": 14,
+     "lost": 9,
+     "gfor": 47,
+     "gaga": 40,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1156": {
+   "link": "Parma Calcio 1913",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 20,
+     "poin": 20,
+     "play": 38,
+     "wins": 3,
+     "draw": 11,
+     "lost": 24,
+     "gfor": 39,
+     "gaga": 83,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 12,
+     "poin": 49,
+     "play": 38,
+     "wins": 11,
+     "draw": 16,
+     "lost": 11,
+     "gfor": 48,
+     "gaga": 43,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 4,
+     "poin": 60,
+     "play": 38,
+     "wins": 17,
+     "draw": 10,
+     "lost": 11,
+     "gfor": 48,
+     "gaga": 39,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1157": {
+   "link": "AC Perugia Calcio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127173,
+     "posi": 1,
+     "poin": 79,
+     "play": 38,
+     "wins": 23,
+     "draw": 10,
+     "lost": 5,
+     "gfor": 67,
+     "gaga": 30,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 8,
+     "poin": 58,
+     "play": 38,
+     "wins": 14,
+     "draw": 16,
+     "lost": 8,
+     "gfor": 40,
+     "gaga": 32,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 18,
+     "poin": 39,
+     "play": 38,
+     "wins": 10,
+     "draw": 9,
+     "lost": 19,
+     "gfor": 40,
+     "gaga": 52,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1158": {
+   "link": "Delfino Pescara 1936",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 19,
+     "poin": 32,
+     "play": 38,
+     "wins": 7,
+     "draw": 11,
+     "lost": 20,
+     "gfor": 29,
+     "gaga": 60,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 43127173,
+     "posi": 5,
+     "poin": 65,
+     "play": 38,
+     "wins": 17,
+     "draw": 14,
+     "lost": 7,
+     "gfor": 56,
+     "gaga": 41,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2023,
+     "comp": 43127174,
+     "posi": 3,
+     "poin": 65,
+     "play": 38,
+     "wins": 19,
+     "draw": 8,
+     "lost": 11,
+     "gfor": 58,
+     "gaga": 42,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1159": {
+   "link": "Piacenza Calcio 1919",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127172,
+     "posi": 12,
+     "poin": 49,
+     "play": 38,
+     "wins": 12,
+     "draw": 13,
+     "lost": 13,
+     "gfor": 47,
+     "gaga": 48,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 43127172,
+     "posi": 9,
+     "poin": 50,
+     "play": 38,
+     "wins": 12,
+     "draw": 14,
+     "lost": 12,
+     "gfor": 44,
+     "gaga": 46,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 43127172,
+     "posi": 20,
+     "poin": 38,
+     "play": 38,
+     "wins": 8,
+     "draw": 14,
+     "lost": 16,
+     "gfor": 42,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1164": {
+   "link": "AC Reggiana 1919",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 18,
+     "poin": 34,
+     "play": 38,
+     "wins": 9,
+     "draw": 7,
+     "lost": 22,
+     "gfor": 31,
+     "gaga": 57,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 43127173,
+     "posi": 2,
+     "poin": 86,
+     "play": 38,
+     "wins": 25,
+     "draw": 11,
+     "lost": 2,
+     "gfor": 72,
+     "gaga": 26,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2023,
+     "comp": 43127173,
+     "posi": 1,
+     "poin": 81,
+     "play": 38,
+     "wins": 24,
+     "draw": 9,
+     "lost": 5,
+     "gfor": 63,
+     "gaga": 27,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1165": {
+   "link": "AS Reggina 1914",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 11,
+     "poin": 50,
+     "play": 38,
+     "wins": 12,
+     "draw": 14,
+     "lost": 12,
+     "gfor": 42,
+     "gaga": 45,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 14,
+     "poin": 46,
+     "play": 38,
+     "wins": 13,
+     "draw": 9,
+     "lost": 16,
+     "gfor": 31,
+     "gaga": 49,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 7,
+     "poin": 50,
+     "play": 38,
+     "wins": 17,
+     "draw": 4,
+     "lost": 17,
+     "gfor": 49,
+     "gaga": 45,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1166": {
+   "link": "US Salernitana 1919",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 2,
+     "poin": 69,
+     "play": 38,
+     "wins": 19,
+     "draw": 12,
+     "lost": 7,
+     "gfor": 46,
+     "gaga": 34,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 17,
+     "poin": 31,
+     "play": 38,
+     "wins": 7,
+     "draw": 10,
+     "lost": 21,
+     "gfor": 33,
+     "gaga": 78,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 15,
+     "poin": 42,
+     "play": 38,
+     "wins": 9,
+     "draw": 15,
+     "lost": 14,
+     "gfor": 48,
+     "gaga": 62,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1167": {
+   "link": "UC Sampdoria",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 9,
+     "poin": 52,
+     "play": 38,
+     "wins": 15,
+     "draw": 7,
+     "lost": 16,
+     "gfor": 52,
+     "gaga": 54,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 15,
+     "poin": 36,
+     "play": 38,
+     "wins": 10,
+     "draw": 6,
+     "lost": 22,
+     "gfor": 46,
+     "gaga": 63,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 20,
+     "poin": 19,
+     "play": 38,
+     "wins": 3,
+     "draw": 10,
+     "lost": 25,
+     "gfor": 24,
+     "gaga": 71,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1170": {
+   "link": "Siena FC",
+   "rows": [
+    {
+     "year": 2022,
+     "comp": 43127173,
+     "posi": 13,
+     "poin": 44,
+     "play": 38,
+     "wins": 10,
+     "draw": 14,
+     "lost": 14,
+     "gfor": 40,
+     "gaga": 41,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2023,
+     "comp": 43127173,
+     "posi": 9,
+     "poin": 48,
+     "play": 38,
+     "wins": 11,
+     "draw": 17,
+     "lost": 10,
+     "gfor": 40,
+     "gaga": 40,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1174": {
+   "link": "Torino FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 17,
+     "poin": 37,
+     "play": 38,
+     "wins": 7,
+     "draw": 16,
+     "lost": 15,
+     "gfor": 50,
+     "gaga": 69,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 10,
+     "poin": 50,
+     "play": 38,
+     "wins": 13,
+     "draw": 11,
+     "lost": 14,
+     "gfor": 46,
+     "gaga": 41,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 10,
+     "poin": 53,
+     "play": 38,
+     "wins": 14,
+     "draw": 11,
+     "lost": 13,
+     "gfor": 42,
+     "gaga": 41,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1178": {
+   "link": "Udinese Calcio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 14,
+     "poin": 40,
+     "play": 38,
+     "wins": 10,
+     "draw": 10,
+     "lost": 18,
+     "gfor": 42,
+     "gaga": 58,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 12,
+     "poin": 47,
+     "play": 38,
+     "wins": 11,
+     "draw": 14,
+     "lost": 13,
+     "gfor": 61,
+     "gaga": 58,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 12,
+     "poin": 46,
+     "play": 38,
+     "wins": 11,
+     "draw": 13,
+     "lost": 14,
+     "gfor": 47,
+     "gaga": 48,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1179": {
+   "link": "Venezia FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 5,
+     "poin": 59,
+     "play": 38,
+     "wins": 15,
+     "draw": 14,
+     "lost": 9,
+     "gfor": 53,
+     "gaga": 39,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 20,
+     "poin": 27,
+     "play": 38,
+     "wins": 6,
+     "draw": 9,
+     "lost": 23,
+     "gfor": 34,
+     "gaga": 69,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 8,
+     "poin": 49,
+     "play": 38,
+     "wins": 13,
+     "draw": 10,
+     "lost": 15,
+     "gfor": 51,
+     "gaga": 50,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "1181": {
+   "link": "LR Vicenza",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 12,
+     "poin": 48,
+     "play": 38,
+     "wins": 11,
+     "draw": 15,
+     "lost": 12,
+     "gfor": 48,
+     "gaga": 53,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 17,
+     "poin": 34,
+     "play": 38,
+     "wins": 9,
+     "draw": 7,
+     "lost": 22,
+     "gfor": 38,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 43127172,
+     "posi": 7,
+     "poin": 58,
+     "play": 38,
+     "wins": 17,
+     "draw": 7,
+     "lost": 14,
+     "gfor": 64,
+     "gaga": 47,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2193": {
+   "link": "Catania FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127174,
+     "posi": 6,
+     "poin": 59,
+     "play": 36,
+     "wins": 17,
+     "draw": 10,
+     "lost": 9,
+     "gfor": 50,
+     "gaga": 38,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2022,
+     "comp": 43127174,
+     "posi": 20,
+     "poin": 0,
+     "play": 0,
+     "wins": 0,
+     "draw": 0,
+     "lost": 0,
+     "gfor": 0,
+     "gaga": 0,
+     "teams": 20,
+     "teams_alt": 18
+    },
+    {
+     "year": 2023,
+     "comp": 1400408,
+     "posi": 1,
+     "poin": 88,
+     "play": 34,
+     "wins": 28,
+     "draw": 4,
+     "lost": 2,
+     "gfor": 74,
+     "gaga": 20,
+     "teams": 18,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2194": {
+   "link": "Palermo FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127174,
+     "posi": 7,
+     "poin": 53,
+     "play": 36,
+     "wins": 14,
+     "draw": 11,
+     "lost": 11,
+     "gfor": 44,
+     "gaga": 40,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2022,
+     "comp": 43127174,
+     "posi": 3,
+     "poin": 66,
+     "play": 36,
+     "wins": 18,
+     "draw": 12,
+     "lost": 6,
+     "gfor": 64,
+     "gaga": 33,
+     "teams": 20,
+     "teams_alt": 18
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 9,
+     "poin": 49,
+     "play": 38,
+     "wins": 11,
+     "draw": 16,
+     "lost": 11,
+     "gfor": 48,
+     "gaga": 49,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2195": {
+   "link": "AS Cittadella",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 6,
+     "poin": 57,
+     "play": 38,
+     "wins": 15,
+     "draw": 12,
+     "lost": 11,
+     "gfor": 48,
+     "gaga": 35,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 11,
+     "poin": 52,
+     "play": 38,
+     "wins": 13,
+     "draw": 13,
+     "lost": 12,
+     "gfor": 38,
+     "gaga": 36,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 15,
+     "poin": 43,
+     "play": 38,
+     "wins": 9,
+     "draw": 16,
+     "lost": 13,
+     "gfor": 34,
+     "gaga": 45,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2201": {
+   "link": "Hellas Verona FC",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 10,
+     "poin": 45,
+     "play": 38,
+     "wins": 11,
+     "draw": 12,
+     "lost": 15,
+     "gfor": 46,
+     "gaga": 48,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 32,
+     "posi": 9,
+     "poin": 53,
+     "play": 38,
+     "wins": 14,
+     "draw": 11,
+     "lost": 13,
+     "gfor": 65,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 32,
+     "posi": 17,
+     "poin": 31,
+     "play": 38,
+     "wins": 7,
+     "draw": 10,
+     "lost": 21,
+     "gfor": 31,
+     "gaga": 59,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2206": {
+   "link": "US Livorno 1915",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127172,
+     "posi": 20,
+     "poin": 29,
+     "play": 38,
+     "wins": 7,
+     "draw": 13,
+     "lost": 18,
+     "gfor": 41,
+     "gaga": 53,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2220": {
+   "link": "Ars et Labor Ferrara Calcio",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 33,
+     "posi": 9,
+     "poin": 56,
+     "play": 38,
+     "wins": 14,
+     "draw": 14,
+     "lost": 10,
+     "gfor": 44,
+     "gaga": 42,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 15,
+     "poin": 42,
+     "play": 38,
+     "wins": 9,
+     "draw": 15,
+     "lost": 14,
+     "gfor": 46,
+     "gaga": 54,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 19,
+     "poin": 38,
+     "play": 38,
+     "wins": 8,
+     "draw": 14,
+     "lost": 16,
+     "gfor": 41,
+     "gaga": 51,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "2227": {
+   "link": "Nuova Ternana 1925",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 43127174,
+     "posi": 1,
+     "poin": 90,
+     "play": 36,
+     "wins": 28,
+     "draw": 6,
+     "lost": 2,
+     "gfor": 95,
+     "gaga": 32,
+     "teams": 20,
+     "teams_alt": 19
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 10,
+     "poin": 54,
+     "play": 38,
+     "wins": 15,
+     "draw": 9,
+     "lost": 14,
+     "gfor": 58,
+     "gaga": 61,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 33,
+     "posi": 14,
+     "poin": 43,
+     "play": 38,
+     "wins": 11,
+     "draw": 10,
+     "lost": 17,
+     "gfor": 37,
+     "gaga": 52,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  },
+  "700206": {
+   "link": "ASD FC SS Nola 1925",
+   "rows": []
+  },
+  "707654": {
+   "link": "FC Crotone",
+   "rows": [
+    {
+     "year": 2021,
+     "comp": 32,
+     "posi": 19,
+     "poin": 23,
+     "play": 38,
+     "wins": 6,
+     "draw": 5,
+     "lost": 27,
+     "gfor": 45,
+     "gaga": 92,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2022,
+     "comp": 33,
+     "posi": 19,
+     "poin": 26,
+     "play": 38,
+     "wins": 4,
+     "draw": 14,
+     "lost": 20,
+     "gfor": 41,
+     "gaga": 61,
+     "teams": 20,
+     "teams_alt": null
+    },
+    {
+     "year": 2023,
+     "comp": 43127174,
+     "posi": 2,
+     "poin": 80,
+     "play": 38,
+     "wins": 23,
+     "draw": 11,
+     "lost": 4,
+     "gfor": 57,
+     "gaga": 31,
+     "teams": 20,
+     "teams_alt": null
+    }
+   ]
+  }
+ },
+ "competitions": {
+  "32": [
+   {
+    "year": 2021,
+    "pla": [
+     1135,
+     1099,
+     1106
+    ]
+   },
+   {
+    "year": 2022,
+    "pla": [
+     1099,
+     1135,
+     1150
+    ]
+   },
+   {
+    "year": 2023,
+    "pla": [
+     1150,
+     1140,
+     1135
+    ]
+   }
+  ],
+  "33": [
+   {
+    "year": 2020,
+    "pla": [
+     2188,
+     707654,
+     1173
+    ],
+    "plwn": 1173
+   },
+   {
+    "year": 2021,
+    "pla": [
+     1126,
+     1166,
+     1149
+    ],
+    "plwn": 1179
+   },
+   {
+    "year": 2022,
+    "pla": [
+     1141,
+     1125,
+     2215
+    ],
+    "plwn": 1149
+   },
+   {
+    "year": 2023,
+    "pla": [
+     2199,
+     1132,
+     1110
+    ],
+    "plwn": 1114
+   }
+  ],
+  "43127173": [
+   {
+    "year": 2021,
+    "pla": [
+     1157,
+     1154,
+     829172
+    ]
+   },
+   {
+    "year": 2022,
+    "pla": [
+     1147,
+     1164,
+     1120
+    ]
+   }
+  ],
+  "43127174": [
+   {
+    "year": 2021,
+    "pla": [
+     2227,
+     1119,
+     1108
+    ]
+   },
+   {
+    "year": 2022,
+    "pla": [
+     1110,
+     1119,
+     2194
+    ]
+   },
+   {
+    "year": 2023,
+    "pla": [
+     1119,
+     707654,
+     1158
+    ]
+   }
+  ]
+ }
+}

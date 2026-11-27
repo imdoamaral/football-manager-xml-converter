@@ -16,6 +16,8 @@ import random
 
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 filepath   = os.path.join(BASE_DIR, "The 2001 02 DB MASTER.xml")
+if not os.path.exists(filepath):
+    filepath = os.path.join(BASE_DIR, "anexos-claude", "The 2001 02 DB MASTER.xml")
 output_dir = os.path.join(BASE_DIR, "output", "fm21")
 
 if len(sys.argv) < 2:
@@ -42,7 +44,9 @@ PNTI_PROP      = "1349416041"   # nationality            → Nnat
 PLHS_PROP      = "1349281907"   # league history         → Ttea + competition + year
 CDVI_PROP      = "1130657385"   # club current division  → competition
 FREE_AGENT_TTEA = "1171"        # virtual free-agents team (skip for club lookup)
-MULT            = 2**32 + 1      # db_unique_id = entity_id * MULT
+ADDR_PROP       = "1094992978"   # FourCC 'ADDR' — entity creation record (rtype=55)
+MULT            = 2**32 + 1      # base entities: db_unique_id = entity_id * MULT
+                                 # created entities: (random_hi << 32) | entity_id
 CLHS_PROP       = "1131178099"   # club league history season  → competition + year
 CLDI_PROP       = "1131177065"   # club last division          → competition
 SEASON_END_YEAR = 2002           # 2001/02 season ends in calendar year 2002
@@ -681,6 +685,12 @@ def _synth_cldi(uid, comp_id):
 
 
 def is_target(rtype, prop, uid, blob):
+    if rtype == "55" and prop == ADDR_PROP:
+        # Creation record: the outer uid is a constant (4294967297); the created
+        # entity's uid is the nested (last) db_unique_id. Without this record the
+        # editor drops every property record of a mod-created person/club.
+        created = UID_RE.findall(blob)[-1]
+        return created in target_person_uids or created in target_club_uids
     if uid in target_person_uids:
         return True
     if uid in target_club_uids:

@@ -14,3 +14,9 @@ __pycache__/
 *.pyo
 .venv/
 venv/
+
+# Wikipedia raw-text cache used by build_club_history.py
+reference/club_history/wiki_cache/
+
+# User attachments (MASTER copy, FM21 exports, editor samples) — local only
+anexos-claude/
